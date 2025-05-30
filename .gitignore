@@ -14,3 +14,11 @@ env.bak/
 venv.bak/
 # Installer logs
 pip-log.txt
+
+# data files
+data/
+*.csv
+*.tsv
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
