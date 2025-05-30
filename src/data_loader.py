@@ -19,6 +19,9 @@ class DataLoader:
         
         try:
             df = pd.read_csv(self.filepath)
+            # Convert the date column to datetime format
+            # Using format='%Y-%m-%d %H:%M:%S' to match the data format
+            df['date'] = pd.to_datetime(df['date'], format='%Y-%m-%d %H:%M:%S', errors='coerce', utc=True)
             return df
         except pd.errors.ParserError as e:
             raise pd.errors.ParserError(f"Error parsing the file: {e}")
