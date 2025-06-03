@@ -7,10 +7,11 @@ import seaborn as sns
 class TimeSeriesAnalysis:
     def __init__(self, df: pd.DataFrame):
         self.df = df.copy()
-        self.df['date'] = pd.to_datetime(self.df['date'], format='%Y-%m-%d %H:%M:%S%z', errors='coerce')
         self.df['publication_date'] = self.df['date'].dt.date
         self.articles_per_day = self.df.groupby('publication_date').size()
-        self.articles_by_hour = None
+        self.df['time_of_day'] = self.df['date'].dt.hour
+        self.articles_by_hour = self.df.groupby('time_of_day').size()
+        
 
     def plot_articles_over_time(self):
         """Plot number of articles published per day."""
@@ -38,8 +39,7 @@ class TimeSeriesAnalysis:
 
     def plot_articles_by_hour(self):
         """Plot number of articles published by hour of day."""
-        self.df['time_of_day'] = self.df['date'].dt.hour
-        self.articles_by_hour = self.df['time_of_day'].value_counts().sort_index()
+        
         plt.figure(figsize=(12, 6))
         sns.barplot(x=self.articles_by_hour.index, y=self.articles_by_hour.values, color='green')
         plt.title('Number of Articles by Hour of the Day')
